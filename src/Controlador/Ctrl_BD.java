@@ -123,20 +123,24 @@ public class Ctrl_BD {
 
     public int conocerTipoColumna(String descripcion) {
         String tipo = "";
-        String tabla, campo;
+        String tabla, campo, ins;
         try {
+            ins = "SELECT TABLA, CAMPO FROM CAMPOS WHERE DESCRIPCION = '" + descripcion + "'";
+            System.out.println(ins);
             Statement s = con.createStatement();
-            rs = s.executeQuery("SELECT TABLA, CAMPO FROM CAMPOS WHERE DESCRIPCION = '" + descripcion + "'");
+            rs = s.executeQuery(ins);
             rs.next();
             tabla = rs.getString("TABLA");
             campo = rs.getString("CAMPO");
             rs.close();
             s.close();
+            campo = campo.toUpperCase();
+            tabla = tabla.toUpperCase();
             rs = metaData.getColumns(null, metaData.getUserName(), tabla, campo);
-            System.out.println(tabla + " " + campo + " " + metaData.getUserName());
             rs.next();
             tipo = rs.getString(6);
             rs.close();
+
         } catch (SQLException ex) {
             System.out.println("Error : " + ex.getMessage());
         }
@@ -163,6 +167,8 @@ public class Ctrl_BD {
             campo = rs.getString("CAMPO");
             rs.close();
             s.close();
+            campo = campo.toUpperCase();
+            tabla = tabla.toUpperCase();
         } catch (SQLException ex) {
             System.out.println("ERROR : "+ex.getMessage());
         }

@@ -91,6 +91,11 @@ public class VPrincipal extends javax.swing.JFrame {
 
         bBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/lupas.png"))); // NOI18N
         bBuscar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        bBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bBuscarActionPerformed(evt);
+            }
+        });
 
         tConsulta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -152,8 +157,8 @@ public class VPrincipal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(20, 20, 20)
-                .addComponent(cbConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64)
+                .addComponent(cbConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
                 .addComponent(cbOperador, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(64, 64, 64)
                 .addComponent(etSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -237,6 +242,17 @@ public class VPrincipal extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_cbConsultaActionPerformed
+
+    private void bBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBuscarActionPerformed
+        if (!etSelect.getText().isEmpty()) {
+            if (cbOperador.getSelectedItem().toString() == "LIKE") {
+                String select = controladorBD.redactarSelect(cbConsulta.getSelectedItem().toString(), cbOperador.getSelectedItem().toString(), etSelect.getText(), true);
+            }
+        } else {
+            getToolkit().beep();
+            JOptionPane.showMessageDialog(this, "El campo de texto no puede estar vacío", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_bBuscarActionPerformed
 
     public void cargarTablas() {
         cbConsulta.removeAllItems();

@@ -52,7 +52,7 @@ public class VNominas extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        tEmpleados.setSelectionMode();
+        tEmpleados.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         tEmpleados.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(tEmpleados);
 
@@ -118,7 +118,7 @@ public class VNominas extends javax.swing.JDialog {
     }//GEN-LAST:event_bCrearActionPerformed
 
     private void bBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBorrarActionPerformed
-        if (tEmpleados.getSelectedRow() != -1) {
+        /*if (tEmpleados.getSelectedRow() != -1) {
             Object dni = tEmpleados.getValueAt(tEmpleados.getSelectedRow(), 0);
             if (controlador.deleteEmpleado(dni.toString())) {
                 JOptionPane.showMessageDialog(this, "El empleado de dni " + dni + " ha sido eliminado correctamente");
@@ -128,11 +128,11 @@ public class VNominas extends javax.swing.JDialog {
             }
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un registro para borrarlo", "Error", JOptionPane.WARNING_MESSAGE);
-        }
+        }*/
     }//GEN-LAST:event_bBorrarActionPerformed
 
     private void bModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModificarActionPerformed
-        if (tEmpleados.getSelectedRow() != -1) {
+        /*if (tEmpleados.getSelectedRow() != -1) {
             dni = tEmpleados.getValueAt(tEmpleados.getSelectedRow(), 0).toString();
             nombre = tEmpleados.getValueAt(tEmpleados.getSelectedRow(), 1).toString();
             HorasMin = tEmpleados.getValueAt(tEmpleados.getSelectedRow(), 2).toString();
@@ -143,7 +143,7 @@ public class VNominas extends javax.swing.JDialog {
             rellenarTabla();
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un registro para modificarlo", "Error", JOptionPane.WARNING_MESSAGE);
-        }
+        }*/
 
     }//GEN-LAST:event_bModificarActionPerformed
 

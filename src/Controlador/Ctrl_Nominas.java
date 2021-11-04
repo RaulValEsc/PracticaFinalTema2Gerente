@@ -50,7 +50,7 @@ public class Ctrl_Nominas {
     public boolean insertNomina(Nomina n){
         try {
             s = con.createStatement();
-            s.executeUpdate("INSERT INTO EMPLEADOS (ANIO,MES,DNI,SUELDOH,SUELDOHE) VALUES (\'"+e.getDni()+"\',\'"+e.getNombre()+"\',"+e.getHorasMin()+","+e.getPrecioHora()+","+e.getPrecioHoraE()+")");
+            //s.executeUpdate("INSERT INTO EMPLEADOS (ANIO,MES,DNI,SUELDOH,SUELDOHE) VALUES (\'"+e.getDni()+"\',\'"+e.getNombre()+"\',"+e.getHorasMin()+","+e.getPrecioHora()+","+e.getPrecioHoraE()+")");
             s.close();
             return true;
         } catch (SQLException ex) {
