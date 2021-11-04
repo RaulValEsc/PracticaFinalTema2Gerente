@@ -5,17 +5,48 @@
  */
 package Vista;
 
+import Controlador.Ctrl_BD;
+import Vista.Empleados.VEmpleados;
+import Vista.Festivos.VFestivos;
+import Vista.Fichajes.VFichajes;
+import static java.lang.System.exit;
+import java.sql.CallableStatement;
+import java.sql.DatabaseMetaData;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
- * @author raulv
+ * @author PC
  */
 public class VPrincipal extends javax.swing.JFrame {
+
+    public static Ctrl_BD controladorBD = new Ctrl_BD();
+
+    DefaultTableModel model;
 
     /**
      * Creates new form VPrincipal
      */
     public VPrincipal() {
         initComponents();
+        this.setIconImage(new ImageIcon(getClass().getResource("/Icon/icono.png")).getImage());
+        if (!controladorBD.conectarBD()) {
+            JOptionPane.showMessageDialog(this, "Error al conectar a la base de datos", "Error", JOptionPane.ERROR_MESSAGE);
+            exit(0);
+        }
+        controladorBD.conectarMetaData();
+        System.out.println(controladorBD.hola());
+
+        model = (DefaultTableModel) tConsulta.getModel();
+        model.setColumnCount(0);
+        model.setRowCount(0);
+        cargarTablas();
     }
 
     /**
@@ -27,33 +58,89 @@ public class VPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cbConsulta = new javax.swing.JComboBox<>();
+        cbOperador = new javax.swing.JComboBox<>();
+        etSelect = new javax.swing.JTextField();
+        bBuscar = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tConsulta = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        bmEmpleados = new javax.swing.JMenuItem();
+        bmFestivos = new javax.swing.JMenuItem();
+        bmFichajes = new javax.swing.JMenuItem();
+        bmNominas = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
-        jMenu1.setText("Gestiones");
-
-        jMenuItem1.setText("Empleados");
-        jMenu1.add(jMenuItem1);
-
-        jMenuItem2.setText("Fichajes");
-        jMenu1.add(jMenuItem2);
-
-        jMenuItem3.setText("Nóminas");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+        setTitle("Aplicación Gestión Nóminas");
+        setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
 
-        jMenuItem4.setText("Festivos");
-        jMenu1.add(jMenuItem4);
+        cbConsulta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbConsultaActionPerformed(evt);
+            }
+        });
+
+        cbOperador.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        bBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/lupas.png"))); // NOI18N
+        bBuscar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        tConsulta.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tConsulta);
+
+        jMenuBar1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jMenu1.setText("Gestión");
+
+        bmEmpleados.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F1, 0));
+        bmEmpleados.setText("Empleados");
+        bmEmpleados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bmEmpleadosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(bmEmpleados);
+
+        bmFestivos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F2, 0));
+        bmFestivos.setText("Festivos");
+        bmFestivos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bmFestivosActionPerformed(evt);
+            }
+        });
+        jMenu1.add(bmFestivos);
+
+        bmFichajes.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F3, 0));
+        bmFichajes.setText("Fichajes");
+        bmFichajes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bmFichajesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(bmFichajes);
+
+        bmNominas.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_F4, 0));
+        bmNominas.setText("Nóminas");
+        bmNominas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bmNominasActionPerformed(evt);
+            }
+        });
+        jMenu1.add(bmNominas);
 
         jMenuBar1.add(jMenu1);
 
@@ -63,19 +150,101 @@ public class VPrincipal extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(cbConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64)
+                .addComponent(cbOperador, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64)
+                .addComponent(etSelect, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64)
+                .addComponent(bBuscar)
+                .addContainerGap(100, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(bBuscar)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(cbConsulta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbOperador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(etSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    private void bmNominasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmNominasActionPerformed
+
+    }//GEN-LAST:event_bmNominasActionPerformed
+
+    private void bmFestivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmFestivosActionPerformed
+        VFestivos v = new VFestivos(this, true);
+        v.setVisible(true);
+    }//GEN-LAST:event_bmFestivosActionPerformed
+
+    private void bmEmpleadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmEmpleadosActionPerformed
+        VEmpleados v = new VEmpleados(this, true);
+        v.setVisible(true);
+    }//GEN-LAST:event_bmEmpleadosActionPerformed
+
+    private void bmFichajesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmFichajesActionPerformed
+        VFichajes v = new VFichajes(this, true);
+        v.setVisible(true);
+    }//GEN-LAST:event_bmFichajesActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        controladorBD.cerrarConexion();
+    }//GEN-LAST:event_formWindowClosing
+
+    private void cbConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbConsultaActionPerformed
+        cbOperador.removeAllItems();
+        etSelect.setText("");
+        if (cbConsulta.getItemCount() != 0) {
+            int i = controladorBD.conocerTipoColumna(cbConsulta.getSelectedItem().toString());
+            switch (i) {
+                case 1:
+                    cbOperador.setEnabled(true);
+                    cbOperador.addItem("LIKE");
+                    cbOperador.addItem("=");
+                    cbOperador.addItem("<>");
+                    break;
+                case 2:
+                    cbOperador.setEnabled(true);
+                    cbOperador.addItem("=");
+                    cbOperador.addItem("<");
+                    cbOperador.addItem(">");
+                    cbOperador.addItem("<=");
+                    cbOperador.addItem(">=");
+                    cbOperador.addItem("<>");
+                    break;
+                case 3:
+                    cbOperador.setEnabled(true);
+                    cbOperador.addItem("=");
+                    break;
+                case -1:
+                    JOptionPane.showMessageDialog(this, "El tipo de la columna no es valido", "Tipo no valido", JOptionPane.INFORMATION_MESSAGE);
+                    break;
+            }
+        }
+    }//GEN-LAST:event_cbConsultaActionPerformed
+
+    public void cargarTablas() {
+        cbConsulta.removeAllItems();
+        ArrayList<String> listaTablas = controladorBD.devolverConsultas();
+        for (String item : listaTablas) {
+            cbConsulta.addItem(item);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -113,11 +282,17 @@ public class VPrincipal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton bBuscar;
+    private javax.swing.JMenuItem bmEmpleados;
+    private javax.swing.JMenuItem bmFestivos;
+    private javax.swing.JMenuItem bmFichajes;
+    private javax.swing.JMenuItem bmNominas;
+    private javax.swing.JComboBox<String> cbConsulta;
+    private javax.swing.JComboBox<String> cbOperador;
+    private javax.swing.JTextField etSelect;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tConsulta;
     // End of variables declaration//GEN-END:variables
 }
