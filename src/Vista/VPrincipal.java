@@ -41,7 +41,7 @@ public class VPrincipal extends javax.swing.JFrame {
             exit(0);
         }
         controladorBD.conectarMetaData();
-        System.out.println(controladorBD.hola());
+        
 
         model = (DefaultTableModel) tConsulta.getModel();
         model.setColumnCount(0);
@@ -247,6 +247,7 @@ public class VPrincipal extends javax.swing.JFrame {
         if (!etSelect.getText().isEmpty()) {
             if (cbOperador.getSelectedItem().toString() == "LIKE") {
                 String select = controladorBD.redactarSelect(cbConsulta.getSelectedItem().toString(), cbOperador.getSelectedItem().toString(), etSelect.getText(), true);
+                cargarTabla(select);
             }
         } else {
             getToolkit().beep();
@@ -259,6 +260,19 @@ public class VPrincipal extends javax.swing.JFrame {
         ArrayList<String> listaTablas = controladorBD.devolverConsultas();
         for (String item : listaTablas) {
             cbConsulta.addItem(item);
+        }
+    }
+    
+    public void cargarTabla(String select) {
+        ArrayList<String> listaColumnas = controladorBD.nombresColumnas(select);
+        model.setColumnCount(0);
+        for(String Columna : listaColumnas){
+            model.addColumn(Columna);
+        }
+        model.setRowCount(0);
+        ArrayList<String[]> listaRegistros = controladorBD.devolverRegistros(select);
+        for(String[] registro : listaRegistros){
+            model.addRow(registro);
         }
     }
 

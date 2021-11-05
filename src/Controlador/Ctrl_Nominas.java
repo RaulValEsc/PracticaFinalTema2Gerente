@@ -7,6 +7,7 @@ package Controlador;
 
 import Modelo.Empleado;
 import Modelo.Nomina;
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.ResultSet;
@@ -21,6 +22,7 @@ import java.util.logging.Logger;
  * @author PC
  */
 public class Ctrl_Nominas {
+
     Connection con;
     Statement s;
     ResultSet rs;
@@ -28,14 +30,14 @@ public class Ctrl_Nominas {
     public Ctrl_Nominas(Connection con) {
         this.con = con;
     }
-    
-    public ArrayList<Nomina> devolverNominas(){
+
+    public ArrayList<Nomina> devolverNominas() {
         ArrayList<Nomina> lista = new ArrayList();
         try {
             s = con.createStatement();
             rs = s.executeQuery("SELECT * FROM NOMINAS");
             while (rs.next()) {
-                Nomina n = new Nomina(rs.getInt("Anio"),rs.getInt("Mes"),rs.getString("dni"),rs.getDouble("SueldoH"),rs.getDouble("SueldoHE"));
+                Nomina n = new Nomina(rs.getInt("Anio"), rs.getInt("Mes"), rs.getString("dni"), rs.getDouble("SueldoH"), rs.getDouble("SueldoHE"));
                 lista.add(n);
             }
             s.close();
@@ -45,45 +47,47 @@ public class Ctrl_Nominas {
         }
         return lista;
     }
-    
+
     //TODO Este se hace con el procedure
-    public boolean insertNomina(Nomina n){
+    public boolean insertNomina(int anio, int mes, String dni) {
         try {
-            s = con.createStatement();
-            //s.executeUpdate("INSERT INTO EMPLEADOS (ANIO,MES,DNI,SUELDOH,SUELDOHE) VALUES (\'"+e.getDni()+"\',\'"+e.getNombre()+"\',"+e.getHorasMin()+","+e.getPrecioHora()+","+e.getPrecioHoraE()+")");
-            s.close();
+            CallableStatement sentencia = con.prepareCall("{call P_GENERARNOMINA(? , ?, ? ) }");
+            sentencia.setInt(1, anio);
+            sentencia.setInt(2, mes);
+            sentencia.setString(3, dni);
+            sentencia.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            System.out.println("Error : "+ex.getMessage());
+            System.out.println("Error : " + ex.getMessage());
             return false;
         }
     }
-    
-    public boolean generarNominas(Date fecha){
+
+    public boolean generarNominas(int anio, int mes) {
         //TODO Este se hace con el procedure
         return true;
     }
-    
-    public boolean deleteNomina(int anio, int mes, String dni){
+
+    public boolean deleteNomina(int anio, int mes, String dni) {
         try {
             s = con.createStatement();
-            s.executeUpdate("DELETE FROM NOMINAS WHERE anio = "+anio+" AND mes = "+mes+" AND dni = '"+dni+"'");
+            s.executeUpdate("DELETE FROM NOMINAS WHERE anio = " + anio + " AND mes = " + mes + " AND dni = '" + dni + "'");
             s.close();
             return true;
         } catch (SQLException ex) {
-            System.out.println("ERROR : "+ex.getMessage());
+            System.out.println("ERROR : " + ex.getMessage());
             return false;
         }
     }
-    
-    public boolean updateEmpleado(Empleado e){
+
+    public boolean updateEmpleado(Empleado e) {
         try {
-            s=con.createStatement();
-            s.executeUpdate("UPDATE EMPLEADOS SET nombre = \'"+e.getNombre()+"\', HorasMin = "+e.getHorasMin()+", precioHora = "+e.getPrecioHora()+", precioHoraE = "+e.getPrecioHoraE()+" WHERE dni = "+e.getDni());
+            s = con.createStatement();
+            s.executeUpdate("UPDATE EMPLEADOS SET nombre = \'" + e.getNombre() + "\', HorasMin = " + e.getHorasMin() + ", precioHora = " + e.getPrecioHora() + ", precioHoraE = " + e.getPrecioHoraE() + " WHERE dni = " + e.getDni());
             s.close();
             return true;
         } catch (SQLException ex) {
-            System.out.println("ERROR : "+ex.getMessage());
+            System.out.println("ERROR : " + ex.getMessage());
             return false;
         }
     }

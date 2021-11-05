@@ -90,20 +90,6 @@ public class Ctrl_BD {
             Logger.getLogger(Ctrl_BD.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    public String hola(){
-        String tipo = "hola";
-        try{
-            rs = metaData.getColumns(null, metaData.getUserName(), "Empleados", "dni");
-            while(rs.next()){
-            tipo = rs.getString(6);
-            }
-            rs.close();
-        } catch (SQLException ex) {
-            System.out.println("Error : " + ex.getMessage());
-        }
-        return tipo;
-    }
 
     public ArrayList<String> devolverConsultas() {
         ArrayList<String> listaConsultas = new ArrayList();
@@ -123,12 +109,10 @@ public class Ctrl_BD {
 
     public int conocerTipoColumna(String descripcion) {
         String tipo = "";
-        String tabla, campo, ins;
+        String tabla, campo;
         try {
-            ins = "SELECT TABLA, CAMPO FROM CAMPOS WHERE DESCRIPCION = '" + descripcion + "'";
-            System.out.println(ins);
             Statement s = con.createStatement();
-            rs = s.executeQuery(ins);
+            rs = s.executeQuery("SELECT TABLA, CAMPO FROM CAMPOS WHERE DESCRIPCION = '" + descripcion + "'");
             rs.next();
             tabla = rs.getString("TABLA");
             campo = rs.getString("CAMPO");
