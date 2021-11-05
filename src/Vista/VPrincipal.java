@@ -9,6 +9,7 @@ import Controlador.Ctrl_BD;
 import Vista.Empleados.VEmpleados;
 import Vista.Festivos.VFestivos;
 import Vista.Fichajes.VFichajes;
+import Vista.Nominas.VNominas;
 import static java.lang.System.exit;
 import java.sql.CallableStatement;
 import java.sql.DatabaseMetaData;
@@ -189,7 +190,8 @@ public class VPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bmNominasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmNominasActionPerformed
-
+        VNominas v = new VNominas(this, true);
+        v.setVisible(true);
     }//GEN-LAST:event_bmNominasActionPerformed
 
     private void bmFestivosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bmFestivosActionPerformed

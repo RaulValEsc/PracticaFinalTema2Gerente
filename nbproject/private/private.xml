@@ -3,10 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/PracticaFinalTema2Gerente/src/Controlador/Ctrl_BD.java</file>
             <file>file:/C:/Users/PC/Documents/NetBeansProjects/PracticaFinalTema2Gerente/src/Controlador/Ctrl_Nominas.java</file>
+            <file>file:/C:/Users/PC/Documents/NetBeansProjects/PracticaFinalTema2Gerente/src/Vista/Nominas/VGenerarNominas.java</file>
             <file>file:/C:/Users/PC/Documents/NetBeansProjects/PracticaFinalTema2Gerente/src/Vista/VPrincipal.java</file>
-            <file>file:/C:/Users/PC/Documents/NetBeansProjects/PracticaFinalTema2Gerente/src/Controlador/Ctrl_Empleados.java</file>
+            <file>file:/C:/Users/PC/Documents/NetBeansProjects/PracticaFinalTema2Gerente/src/Vista/Nominas/VNominas.java</file>
+            <file>file:/C:/Users/PC/Documents/NetBeansProjects/PracticaFinalTema2Gerente/src/Vista/Nominas/VCrearNominas.java</file>
         </group>
     </open-files>
 </project-private>

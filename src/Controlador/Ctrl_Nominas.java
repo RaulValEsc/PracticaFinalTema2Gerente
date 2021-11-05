@@ -48,7 +48,6 @@ public class Ctrl_Nominas {
         return lista;
     }
 
-    //TODO Este se hace con el procedure
     public boolean insertNomina(int anio, int mes, String dni) {
         try {
             CallableStatement sentencia = con.prepareCall("{call P_GENERARNOMINA(? , ?, ? ) }");
@@ -64,8 +63,21 @@ public class Ctrl_Nominas {
     }
 
     public boolean generarNominas(int anio, int mes) {
-        //TODO Este se hace con el procedure
-        return true;
+        try {
+            Statement s = con.createStatement();
+            ResultSet rs = s.executeQuery("SELECT DNI FROM EMPLEADOS");
+            while (rs.next()) {
+                CallableStatement sentencia = con.prepareCall("{call P_GENERARNOMINA(? , ?, ? ) }");
+                sentencia.setInt(1, anio);
+                sentencia.setInt(2, mes);
+                sentencia.setString(3,rs.getString("DNI"));
+                sentencia.executeUpdate();
+            }
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Error : " + ex.getMessage());
+            return false;
+        }
     }
 
     public boolean deleteNomina(int anio, int mes, String dni) {
@@ -80,6 +92,7 @@ public class Ctrl_Nominas {
         }
     }
 
+    //TODO
     public boolean updateEmpleado(Empleado e) {
         try {
             s = con.createStatement();

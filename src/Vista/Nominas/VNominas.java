@@ -5,18 +5,25 @@
  */
 package Vista.Nominas;
 
+import Controlador.Ctrl_Nominas;
+import Vista.VPrincipal;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author PC
  */
 public class VNominas extends javax.swing.JDialog {
-
+    Ctrl_Nominas con = new Ctrl_Nominas(VPrincipal.controladorBD.getConexion());
+    
     /**
      * Creates new form VNominas
      */
     public VNominas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setIconImage(new ImageIcon(getClass().getResource("/Icon/nomina.png")).getImage());
     }
 
     /**
@@ -29,14 +36,15 @@ public class VNominas extends javax.swing.JDialog {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        tEmpleados = new javax.swing.JTable();
+        tNominas = new javax.swing.JTable();
         bCrear = new javax.swing.JButton();
         bBorrar = new javax.swing.JButton();
         bModificar = new javax.swing.JButton();
+        bGenerar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        tEmpleados.setModel(new javax.swing.table.DefaultTableModel(
+        tNominas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -52,9 +60,9 @@ public class VNominas extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        tEmpleados.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
-        tEmpleados.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(tEmpleados);
+        tNominas.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tNominas.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tNominas);
 
         bCrear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/crear.png"))); // NOI18N
         bCrear.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -80,6 +88,14 @@ public class VNominas extends javax.swing.JDialog {
             }
         });
 
+        bGenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/fichaje.png"))); // NOI18N
+        bGenerar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        bGenerar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bGenerarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,7 +107,9 @@ public class VNominas extends javax.swing.JDialog {
                 .addComponent(bBorrar)
                 .addGap(25, 25, 25)
                 .addComponent(bModificar)
-                .addContainerGap(403, Short.MAX_VALUE))
+                .addGap(25, 25, 25)
+                .addComponent(bGenerar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 551, Short.MAX_VALUE)
@@ -101,10 +119,12 @@ public class VNominas extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(bCrear)
-                    .addComponent(bBorrar)
-                    .addComponent(bModificar))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(bCrear)
+                        .addComponent(bBorrar)
+                        .addComponent(bModificar))
+                    .addComponent(bGenerar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
                 .addContainerGap())
@@ -114,13 +134,16 @@ public class VNominas extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCrearActionPerformed
-        
+        VCrearNominas v = new VCrearNominas(null,true);
+        v.setVisible(true);
     }//GEN-LAST:event_bCrearActionPerformed
 
     private void bBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBorrarActionPerformed
-        /*if (tEmpleados.getSelectedRow() != -1) {
-            Object dni = tEmpleados.getValueAt(tEmpleados.getSelectedRow(), 0);
-            if (controlador.deleteEmpleado(dni.toString())) {
+        if (tNominas.getSelectedRow() != -1) {
+            Object anio = tNominas.getValueAt(tNominas.getSelectedRow(), 0);
+            Object mes = tNominas.getValueAt(tNominas.getSelectedRow(), 1);
+            Object dni = tNominas.getValueAt(tNominas.getSelectedRow(), 2);
+            if (con.deleteNomina(Integer.parseInt(anio.toString()),Integer.parseInt(mes.toString()),dni.toString())) {
                 JOptionPane.showMessageDialog(this, "El empleado de dni " + dni + " ha sido eliminado correctamente");
                 rellenarTabla();
             } else {
@@ -128,7 +151,7 @@ public class VNominas extends javax.swing.JDialog {
             }
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un registro para borrarlo", "Error", JOptionPane.WARNING_MESSAGE);
-        }*/
+        }
     }//GEN-LAST:event_bBorrarActionPerformed
 
     private void bModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModificarActionPerformed
@@ -146,6 +169,11 @@ public class VNominas extends javax.swing.JDialog {
         }*/
 
     }//GEN-LAST:event_bModificarActionPerformed
+
+    private void bGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGenerarActionPerformed
+        VGenerarNominas v = new VGenerarNominas(null, true);
+        v.setVisible(true);
+    }//GEN-LAST:event_bGenerarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -192,8 +220,9 @@ public class VNominas extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton bBorrar;
     private javax.swing.JButton bCrear;
+    private javax.swing.JButton bGenerar;
     private javax.swing.JButton bModificar;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tEmpleados;
+    private javax.swing.JTable tNominas;
     // End of variables declaration//GEN-END:variables
 }
