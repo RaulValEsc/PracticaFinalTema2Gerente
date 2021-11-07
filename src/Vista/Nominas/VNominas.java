@@ -6,9 +6,12 @@
 package Vista.Nominas;
 
 import Controlador.Ctrl_Nominas;
+import Modelo.Nomina;
 import Vista.VPrincipal;
+import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -24,6 +27,7 @@ public class VNominas extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
         this.setIconImage(new ImageIcon(getClass().getResource("/Icon/nomina.png")).getImage());
+        rellenarTabla();
     }
 
     /**
@@ -136,6 +140,7 @@ public class VNominas extends javax.swing.JDialog {
     private void bCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bCrearActionPerformed
         VCrearNominas v = new VCrearNominas(null,true);
         v.setVisible(true);
+        rellenarTabla();
     }//GEN-LAST:event_bCrearActionPerformed
 
     private void bBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bBorrarActionPerformed
@@ -173,8 +178,17 @@ public class VNominas extends javax.swing.JDialog {
     private void bGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGenerarActionPerformed
         VGenerarNominas v = new VGenerarNominas(null, true);
         v.setVisible(true);
+        rellenarTabla();
     }//GEN-LAST:event_bGenerarActionPerformed
 
+    public void rellenarTabla(){
+        DefaultTableModel modelo = (DefaultTableModel) tNominas.getModel();
+        modelo.setRowCount(0);
+        ArrayList<Nomina> lista = con.devolverNominas();
+        for (Nomina n : lista) {
+            modelo.addRow(new Object[]{n.getAnio(),n.getMes(),n.getDni(),n.getSueldoH(),n.getSueldoHE()});
+        }
+    }
     /**
      * @param args the command line arguments
      */
