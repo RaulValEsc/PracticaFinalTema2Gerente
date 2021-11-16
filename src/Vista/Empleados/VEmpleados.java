@@ -149,7 +149,7 @@ public class VEmpleados extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(this, "El empleado de dni " + dni + " ha sido eliminado correctamente");
                 rellenarTabla();
             } else {
-                JOptionPane.showMessageDialog(this, "Error al borrar el empleado", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error al borrar el empleado, borre antes sus fichajes y nominas", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un registro para borrarlo", "Error", JOptionPane.WARNING_MESSAGE);

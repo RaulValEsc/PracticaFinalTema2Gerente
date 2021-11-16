@@ -182,7 +182,7 @@ public class VFichajes extends javax.swing.JDialog {
         for (Fichaje f : lista) {
             DateFormat formato = new SimpleDateFormat("dd/MM/yyyy H:mm");
             String fechaAux = formato.format(f.getFecHoraIni());
-            String fechaAux2 = "";
+            String fechaAux2 = "(null)";
             if (f.getFecHoraFin() != null) {
                 fechaAux2 = formato.format(f.getFecHoraFin());
             }

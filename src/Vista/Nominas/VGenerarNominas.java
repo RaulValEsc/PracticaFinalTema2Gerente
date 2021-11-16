@@ -39,6 +39,7 @@ public class VGenerarNominas extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Generar Nóminas");
 
         bGenerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icon/crear.png"))); // NOI18N
         bGenerar.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));

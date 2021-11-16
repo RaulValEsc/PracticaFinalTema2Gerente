@@ -5,11 +5,10 @@
  */
 package Controlador;
 
-import Modelo.Empleado;
 import Modelo.Nomina;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -92,12 +91,19 @@ public class Ctrl_Nominas {
         }
     }
 
-    //TODO
-    public boolean updateEmpleado(Empleado e) {
+    public boolean updateNomina(Nomina n) {
         try {
-            s = con.createStatement();
-            s.executeUpdate("UPDATE EMPLEADOS SET nombre = \'" + e.getNombre() + "\', HorasMin = " + e.getHorasMin() + ", precioHora = " + e.getPrecioHora() + ", precioHoraE = " + e.getPrecioHoraE() + " WHERE dni = " + e.getDni());
-            s.close();
+            PreparedStatement ps = con.prepareStatement("UPDATE NOMINAS SET ANIO = ?, MES = ?, DNI = ?, SUELDOH = ?, SUELDOHE = ? WHERE ANIO = ? AND MES = ? AND DNI = ?");
+            ps.setInt(1, n.getAnio());
+            ps.setInt(2, n.getMes());
+            ps.setString(3, n.getDni());
+            ps.setDouble(4, n.getSueldoH());
+            ps.setDouble(5, n.getSueldoHE());
+            ps.setInt(6, n.getAnio());
+            ps.setInt(7, n.getMes());
+            ps.setString(8, n.getDni());
+            ps.executeUpdate();
+            ps.close();
             return true;
         } catch (SQLException ex) {
             System.out.println("ERROR : " + ex.getMessage());

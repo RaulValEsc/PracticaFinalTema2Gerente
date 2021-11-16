@@ -32,19 +32,13 @@ public class Ctrl_BD {
 
     ResultSet rs;
 
-    BufferedReader br;
-    FileReader fr;
-    File f;
-    String servidor, puerto, id, usuario, password;
-
     public Ctrl_BD() {
 
     }
 
     public boolean conectarBD() {
-        conectarFichero();
         try {
-            con = DriverManager.getConnection("jdbc:oracle:thin:@" + servidor + ":" + puerto + ":" + id, usuario, password);
+            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "AD_TEMA02_FICHAJES", "AD_TEMA02_FICHAJES");
             return true;
         } catch (SQLException ex) {
             System.out.println("Error : " + ex.getMessage());
@@ -57,25 +51,6 @@ public class Ctrl_BD {
             metaData = con.getMetaData();
         } catch (SQLException ex) {
             Logger.getLogger(Ctrl_BD.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void conectarFichero() {
-        f = new File("./src/CredencialesBD/CredencialesBD.txt");
-        try {
-            fr = new FileReader(f);
-            br = new BufferedReader(fr);
-            servidor = br.readLine();
-            puerto = br.readLine();
-            id = br.readLine();
-            usuario = br.readLine();
-            password = br.readLine();
-            br.close();
-            fr.close();
-        } catch (FileNotFoundException ex) {
-            System.out.println("Error: " + ex.getMessage());
-        } catch (IOException ex) {
-            System.out.println("Error: " + ex.getMessage());
         }
     }
 

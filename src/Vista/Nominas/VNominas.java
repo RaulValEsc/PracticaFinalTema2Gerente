@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 public class VNominas extends javax.swing.JDialog {
     Ctrl_Nominas con = new Ctrl_Nominas(VPrincipal.controladorBD.getConexion());
     
+    public static String anio,mes,dni,sueldoh,sueldohe;
     /**
      * Creates new form VNominas
      */
@@ -47,6 +48,7 @@ public class VNominas extends javax.swing.JDialog {
         bGenerar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Gestión de Nóminas");
 
         tNominas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -149,10 +151,10 @@ public class VNominas extends javax.swing.JDialog {
             Object mes = tNominas.getValueAt(tNominas.getSelectedRow(), 1);
             Object dni = tNominas.getValueAt(tNominas.getSelectedRow(), 2);
             if (con.deleteNomina(Integer.parseInt(anio.toString()),Integer.parseInt(mes.toString()),dni.toString())) {
-                JOptionPane.showMessageDialog(this, "El empleado de dni " + dni + " ha sido eliminado correctamente");
+                JOptionPane.showMessageDialog(this, "La nomina ha sido eliminado correctamente");
                 rellenarTabla();
             } else {
-                JOptionPane.showMessageDialog(this, "Error al borrar el empleado", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Error al borrar la nómina", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un registro para borrarlo", "Error", JOptionPane.WARNING_MESSAGE);
@@ -160,19 +162,18 @@ public class VNominas extends javax.swing.JDialog {
     }//GEN-LAST:event_bBorrarActionPerformed
 
     private void bModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bModificarActionPerformed
-        /*if (tEmpleados.getSelectedRow() != -1) {
-            dni = tEmpleados.getValueAt(tEmpleados.getSelectedRow(), 0).toString();
-            nombre = tEmpleados.getValueAt(tEmpleados.getSelectedRow(), 1).toString();
-            HorasMin = tEmpleados.getValueAt(tEmpleados.getSelectedRow(), 2).toString();
-            precioHora = tEmpleados.getValueAt(tEmpleados.getSelectedRow(), 3).toString();
-            precioHoraE = tEmpleados.getValueAt(tEmpleados.getSelectedRow(), 4).toString();
-            VModificarEmpleado v = new VModificarEmpleado(null, true);
+        if (tNominas.getSelectedRow() != -1) {
+            anio = tNominas.getValueAt(tNominas.getSelectedRow(), 0).toString();
+            mes = tNominas.getValueAt(tNominas.getSelectedRow(), 1).toString();
+            dni = tNominas.getValueAt(tNominas.getSelectedRow(), 2).toString();
+            sueldoh = tNominas.getValueAt(tNominas.getSelectedRow(), 3).toString();
+            sueldohe = tNominas.getValueAt(tNominas.getSelectedRow(), 4).toString();
+            VModificarNomina v = new VModificarNomina(null, true);
             v.setVisible(true);
             rellenarTabla();
         } else {
             JOptionPane.showMessageDialog(this, "Seleccione un registro para modificarlo", "Error", JOptionPane.WARNING_MESSAGE);
-        }*/
-
+        }
     }//GEN-LAST:event_bModificarActionPerformed
 
     private void bGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bGenerarActionPerformed
